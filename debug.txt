@@ -1,0 +1,8 @@
+debugging:
+--------------
+Types of Errors:
+1.syntax errors: generally omitting the words,case_sensitive or semi-colon, dots, or curly braces.
+
+2.Runtime Errors: 
+
+3.Logical Errors:

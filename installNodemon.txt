@@ -1,0 +1,16 @@
+if you install in this way that is,
+npm install nodemon --save  => this is for production dependencies that is used to code we want to work with. 
+or 
+npm install nodemon --save-dev => this is for the development environment within the project. 
+or 
+npm install nodemon -g => which is used globally in the machine 
+
+after installing, we see, 
+1.node_modules.
+2.package-lock.json
+3.updated => package.json with "deveDependencies":{"nodemon": "^3.0.1"}
+
+after that: to run server 
+we just change node to nodemon 
+
+--> in the command prompt : nodemon start-server

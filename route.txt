@@ -20,8 +20,7 @@ const requestHandler = (req, res) => {
     req.on("end", () => {
       const parsedBody = Buffer.concat(body).toString();
       console.log(parsedBody);
-      const message = parsedBody.split("=")[0];
-      fs.writeFile("message.txt", message, parsedBody, (error) => {
+      fs.writeFile("message.txt", parsedBody, (error) => {
         res.statusCode = 302;
         res.setHeader("Location", "/");
         res.end();
@@ -51,3 +50,16 @@ const requestHandler = (req, res) => {
 //other way is simply furhter
 exports.requestHandler = requestHandler;
 exports.sometext = "Hello Galaxy";
+
+
+
+//-------IN the apps.js
+const http = require("http");
+const routes = require("./route");
+
+console.log(routes.sometext);
+const server = http.createServer(routes.requestHandler);
+
+server.listen(4000, () => {
+  console.log("server has started");
+});

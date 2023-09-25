@@ -1,0 +1,16 @@
+{
+  "name": "backend",
+  "version": "1.7.9",
+  "description": "To Run Server",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+    "start-server": "nodemon app.js"
+  },
+  "author": "Vinesh Krishna",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
