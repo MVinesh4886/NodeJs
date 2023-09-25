@@ -1,0 +1,17 @@
+Thread : Processing the operating system we can say.
+
+Javascript is a single Thread.
+Then, How is it able to operate multiple requests/mutliple thread.
+
+
+Event loop : It automatically starts by nodejs when the program starts. We don't have to start explicitly. 
+This is responsible for handling the even callbacks.
+->Timers : Exceute setTimeout.setInterval callbacks.
+->pending callbacks: Execute I/O(input &output-disk and network operations(`Blocking operations))-related callbacks that are deferred.
+->Poll : Retrieve new I/O events,execute their callbacks.
+->Check : Execute setImmediate() callbacks
+->close callbacks: Execute all "close" event callbacks
+
+process.exit ==> refs==0
+
+Since the file may contain large data in it. The worker pool do all the heavy lifting. It runs on different threads.
