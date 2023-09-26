@@ -1,0 +1,7 @@
+in the command prompt=>
+we type : npm install --save express 
+
+after this we find a change in package.json with 
+"dependencies": {
+    "express": "^4.18.2"
+  }
