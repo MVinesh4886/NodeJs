@@ -1,24 +1,26 @@
-const http = require("http");
 const express = require("express");
-
+const bodyParser = require("body-parser");
 const app = express();
 
-app.use((req, res, next) => {
-  console.log("I'm the first middleware");
-  next(); //allows the request to continue to the next middleware in line.
+app.use(bodyParser.urlencoded({ extended: false }));
+
+app.use("/addProduct", (req, res, next) => {
+  // console.log("I'm the first middleware");
+  // res.send('<h1>The "add product" Page</h1>');
+  res.send(
+    '<form action="/product" method="POST"><input type="text" name="title"><button type="submit">Add Product</button></form>'
+  );
 });
 
-app.use((req, res, next) => {
-  console.log("I'm the second middleware");
+app.post("/product", (req, res, next) => {
+  console.log(req.body);
+  res.redirect("/");
+});
+
+app.use("/", (req, res, next) => {
+  // console.log("I'm the second middleware");
   res.send("<h1>Hello from Express!</h1>");
-  res.send({ name: "vinesh" });
 });
-
-// const server = http.createServer(app);
-
-// server.listen(4000, () => {
-//   console.log("server has started");
-// });
 
 app.listen(4000, () => {
   console.log("server has started");

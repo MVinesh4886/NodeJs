@@ -1,0 +1,4 @@
+in the command prompt =>
+we type npm install --save body-parser 
+
+and import bodyparser in the app.js
