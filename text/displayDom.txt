@@ -1,0 +1,384 @@
+// const express = require("express");
+// const app = express();
+
+// app.use(express.urlencoded({ extended: true }));
+
+// app.get("/", (req, res) => {
+//   res.send(`This is the normal page`);
+// });
+
+// app.get("/login", (req, res) => {
+//   res.send(`
+//     <form id="loginForm" action="/login" method="post">
+//       <input type="text" name="username" id ="username" placeholder="Enter your username">
+//       <button type="submit">Login</button>
+//     </form>
+//     <div id="result"></div>
+//     <script>
+//       document.getElementById("loginForm").addEventListener("submit", function(event) {
+//         event.preventDefault(); // Prevent the default form submission behavior
+//         const username = document.getElementById("username").value;
+//         document.getElementById("result").textContent = "$"+username+"!";
+//       });
+//     </script>
+//   `);
+// });
+
+// app.post("/login", (req, res) => {
+//   const { username } = req.body;
+//   res.send(`${username}!`);
+// });
+
+// app.listen(4000, () => {
+//   console.log("Server started on Port 4000");
+// });
+
+
+
+
+
+
+_____________________________________________________________________________
+const express = require("express");
+const bodyParser = require("body-parser");
+const app = express();
+
+app.use(bodyParser.text({ type: "application/x-www-form-urlencoded" }));
+//or
+//app.use(bodyParser.urlencoded({ extended: true }));
+
+app.get("/", (req, res) => {
+  res.send(`This is the normal page`);
+});
+
+app.get("/login", (req, res) => {
+  res.send(`
+  <div id="result"></div>
+    <form id="loginForm" action="/login" method="post">
+      <input type="text" name="username" id ="username" placeholder="Enter your username">
+      <button type="submit">Login</button>
+    </form>
+    <div id="result"></div>
+    <script>
+      document.getElementById("loginForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+        const username = document.getElementById("username").value;
+        document.getElementById("result").textContent = "$"+username+"!";
+      });
+    </script>
+  `);
+});
+
+app.post("/login", (req, res) => {
+  const { username } = req.body;
+  res.send(`${username}!`);
+});
+
+app.listen(4000, () => {
+  console.log("Server started on Port 4000");
+});
+
+
+
+
+
+
+
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+// const express = require("express");
+// const app = express();
+
+// app.use(express.urlencoded({ extended: true }));
+
+// //show the login form to the user
+// app.get("/", (req, res) => {
+//   res.send(`
+//     <form id="loginForm" action="/login" method="post">
+//       <input type="text" name="username" id="username" placeholder="Enter your username">
+//       <button type="submit">Login</button>
+//     </form>
+//     <div id="result"></div>
+//     <script>
+//       document.getElementById("loginForm").addEventListener("submit", function(event) {
+//         event.preventDefault(); // Prevent the default form submission behavior
+//         const username = document.getElementById("username").value;
+//         document.getElementById("result").textContent = "$" + username + "!";
+
+//                 // Redirect to the "/user" page after submitting the username
+//        window.location.href = "/user";
+// //       });
+//       });
+//     </script>
+//   `);
+// });
+
+// //After logging it should take to send message page
+// app.get("/user", (req, res) => {
+//   res.send(
+//     `<form id="messageForm" action="/" method="post">
+//       <input type="text" name="message" id="message" placeholder="Enter your message">
+
+//       <button type="submit">Send</button>
+//     </form>
+//     <div id="res"></div>
+//     <script>
+//       document.getElementById("messageForm").addEventListener("submit", function(event) {
+//         event.preventDefault(); // Prevent the default form submission behavior
+//         const message = document.getElementById("message").value;
+//         document.getElementById("res").textContent = "$" + message + "!";
+
+//       });
+//     </script>`
+//   );
+// });
+
+// //post the login by the user
+// app.post("/", (req, res) => {
+//   const { username } = req.body;
+//   // res.send(`${username}!`);
+//   res.redirect("/user");
+// });
+
+// //post the message by the user
+// app.post("/", (req, res) => {
+//   const { message } = req.body;
+//   res.send(`${message}!`);
+// });
+
+// app.listen(4000, () => {
+//   console.log("Server started on Port 4000");
+// });
+
+
+
+
+
+
+
+
+
+//*++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+const express = require("express");
+const app = express();
+const bodyParser = require("body-parser");
+
+app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+let messages = [];
+
+// show the login form to the user
+app.get("/", (req, res) => {
+  res.send(`
+    <form id="loginForm" action="/login" method="post">
+      <input type="text" name="username" id="username" placeholder="Enter your username">
+      <button type="submit">Login</button>
+    </form>
+    <div id="result"></div>
+    <script>
+      document.getElementById("loginForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+        const username = document.getElementById("username").value;
+        localStorage.setItem("username", username); // Store the username in local storage
+        document.getElementById("result").textContent = "$" + username + "!";
+        // Redirect to the "/user" page after submitting the username
+        window.location.href = "/user";
+      });
+    </script>
+  `);
+});
+
+// After logging in, the user is redirected to the message page
+app.get("/user", (req, res) => {
+  let messageList = "";
+  for (const message of messages) {
+    messageList += `<li>${message}</li>`;
+  }
+  res.send(`
+    <form id="messageForm" action="/message" method="post">
+      <input type="text" name="message" id="message" placeholder="Enter your message">
+      <button type="submit">Send</button>
+    </form>
+    <div id="res">${messageList}</div>
+    <script>
+      document.getElementById("messageForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+        const message = document.getElementById("message").value;
+        document.getElementById("res").innerHTML += "<li>$"  + message + "!</li>";
+        document.getElementById("message").value = ""; // Clear the input field
+      });
+    </script>
+  `);
+});
+
+// Post the login by the user
+app.post("/login", (req, res) => {
+  const { username } = req.body;
+  localStorage.setItem("username", username); // Store the username in local storage
+  res.redirect("/user");
+});
+
+// Post the message by the user
+app.post("/message", (req, res) => {
+  const { message } = req.body;
+  // const username = localStorage.getItem("username"); // Retrieve the stored username from local storage
+  // messages.push(`${username}, your message is: ${message}!`);
+  res.redirect("/user");
+});
+
+app.listen(4000, () => {
+  console.log("Server started on Port 4000");
+});
+
+
+
+//_____________________________________________________
+
+//+const express = require("express");
+const app = express();
+const bodyParser = require("body-parser");
+
+app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+let messages = [];
+
+// show the login form to the user
+app.get("/", (req, res) => {
+  res.send(`
+    <form id="loginForm" action="/login" method="post">
+      <input type="text" name="username" id="username" placeholder="Enter your username">
+      <button type="submit">Login</button>
+    </form>
+    <div id="result"></div>
+    <script>
+      document.getElementById("loginForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+        const username = document.getElementById("username").value;
+        localStorage.setItem("username", username); // Store the username in local storage
+        document.getElementById("result").textContent = "$" + username + "!";
+        // Redirect to the "/user" page after submitting the username
+        window.location.href = "/user";
+      });
+    </script>
+  `);
+});
+
+// After logging in, the user is redirected to the message page
+app.get("/user", (req, res) => {
+  let messageList = "";
+  for (const message of messages) {
+    messageList += `<li>${message}</li>`;
+  }
+  res.send(`
+    <form id="messageForm" action="/message" method="post">
+      <input type="text" name="message" id="message" placeholder="Enter your message">
+      <button type="submit">Send</button>
+    </form>
+    <div id="res">${messageList}</div>
+    <script>
+      document.getElementById("messageForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+        const message = document.getElementById("message").value;
+        document.getElementById("res").innerHTML += "<li>$"  + message + "!</li>";
+        document.getElementById("message").value = ""; // Clear the input field
+      });
+    </script>
+  `);
+});
+
+// Post the login by the user
+app.post("/login", (req, res) => {
+  const { username } = req.body;
+  localStorage.setItem("username", username); // Store the username in local storage
+  res.redirect("/user");
+});
+
+// Post the message by the user
+app.post("/message", (req, res) => {
+  const { message } = req.body;
+  // const username = localStorage.getItem("username"); // Retrieve the stored username from local storage
+  // messages.push(`${username}, your message is: ${message}!`);
+  res.redirect("/user");
+});
+
+app.listen(4000, () => {
+  console.log("Server started on Port 4000");
+});
+
+
+
+
+//____________________________sharpener chat app__________________
+const express = require("express");
+const app = express();
+const bodyParser = require("body-parser");
+
+app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
+let messages = [];
+
+// show the login form to the user
+app.get("/", (req, res) => {
+  res.send(`
+    <form id="loginForm" action="/login" method="post">
+      <input type="text" name="username" id="username" placeholder="Enter your username">
+      <button type="submit">Login</button>
+    </form>
+    <div id="result"></div>
+    <script>
+      document.getElementById("loginForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+        const username = document.getElementById("username").value;
+        localStorage.setItem("username", username); // Store the username in local storage
+        document.getElementById("result").textContent = "$" + username + "!";
+        // Redirect to the "/user" page after submitting the username
+        window.location.href = "/user";
+      });
+    </script>
+  `);
+});
+
+// After logging in, the user is redirected to the message page
+app.get("/user", (req, res) => {
+  let messageList = "";
+  for (const message of messages) {
+    messageList += `<li>${message}</li>`;
+  }
+  res.send(`
+    <form id="messageForm" action="/message" method="post">
+      <input type="text" name="message" id="message" placeholder="Enter your message">
+      <button type="submit">Send</button>
+    </form>
+    <div id="res">${messageList}</div>
+    <script>
+      document.getElementById("messageForm").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent the default form submission behavior
+        const message = document.getElementById("message").value;
+        document.getElementById("res").innerHTML += "<li>$"  + message + "!</li>";
+        document.getElementById("message").value = ""; // Clear the input field
+      });
+    </script>
+  `);
+});
+
+// Post the login by the user
+app.post("/login", (req, res) => {
+  const { username } = req.body;
+  localStorage.setItem("username", username); // Store the username in local storage
+  res.redirect("/user");
+});
+
+// Post the message by the user
+app.post("/message", (req, res) => {
+  const { message } = req.body;
+  // const username = localStorage.getItem("username"); // Retrieve the stored username from local storage
+  // messages.push(`${username}, your message is: ${message}!`);
+  res.redirect("/user");
+});
+
+app.listen(4000, () => {
+  console.log("Server started on Port 4000");
+});

@@ -1,0 +1,8 @@
+to install expression session : 
+we use npm install express-session
+
+and it will add dependencies 
+
+
+
+The express-session middleware is used to store user information in the session, the session data is stored on the server and associated with a specific user session.
